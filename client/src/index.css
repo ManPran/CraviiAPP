@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Cravii brand colors */
+  --cravii-red: hsl(357, 100%, 62%);
+  --cravii-red-dark: hsl(357, 82%, 56%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .cravii-red {
+    color: var(--cravii-red);
+  }
+  
+  .bg-cravii-red {
+    background-color: var(--cravii-red);
+  }
+  
+  .border-cravii-red {
+    border-color: var(--cravii-red);
+  }
+  
+  .text-cravii-red {
+    color: var(--cravii-red);
+  }
+  
+  .bg-cravii-red-dark {
+    background-color: var(--cravii-red-dark);
+  }
+}
+
+@layer utilities {
+  .swipe-card {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .swipe-card.swiping-right {
+    transform: translateX(100px) rotate(10deg);
+    opacity: 0.7;
+  }
+  
+  .swipe-card.swiping-left {
+    transform: translateX(-100px) rotate(-10deg);
+    opacity: 0.7;
+  }
+  
+  .swipe-card.swiping-up {
+    transform: translateY(-100px) scale(1.05);
+    opacity: 0.8;
+  }
+  
+  .gradient-overlay {
+    background: linear-gradient(135deg, var(--cravii-red) 0%, var(--cravii-red-dark) 100%);
+  }
+  
+  .progress-bar {
+    animation: progress 2s ease-in-out;
+  }
+  
+  @keyframes progress {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+  
+  .slide-in {
+    animation: slideIn 0.5s ease-out;
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .slider::-webkit-slider-thumb {
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: var(--cravii-red);
+    cursor: pointer;
+  }
+  
+  .slider::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: var(--cravii-red);
+    cursor: pointer;
+    border: none;
+  }
+
+  .slider::-webkit-slider-track {
+    height: 4px;
+    border-radius: 2px;
+    background: #e5e7eb;
+  }
+
+  .slider::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: #e5e7eb;
+    border: none;
+  }
+
+  /* Override default slider colors */
+  .slider[data-state="complete"] {
+    background: var(--cravii-red);
+  }
+}
