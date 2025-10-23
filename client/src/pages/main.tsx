@@ -160,7 +160,7 @@ export default function MainScreen({ onGenerateRecipes }: MainScreenProps) {
             />
             <div className="flex justify-between text-sm text-gray-500 mt-2">
               <span>5 min</span>
-              <span className="font-semibold text-cravii-red">{prepTime} min</span>
+              <span className="font-semibold text-cravii-red">10 mins</span>
               <span>30 min</span>
             </div>
           </div>
