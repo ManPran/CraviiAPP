@@ -54,7 +54,7 @@ export default function MainScreen({ onGenerateRecipes }: MainScreenProps) {
             <img 
               src={logoImage} 
               alt="Cravii Logo" 
-              className="h-12 w-auto object-contain object-left"
+              className="h-16 w-auto object-contain object-left"
               style={{ clipPath: 'inset(0 0 25% 0)' }}
             />
           </div>
