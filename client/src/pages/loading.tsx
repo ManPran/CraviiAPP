@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import logoImage from "@assets/Screen Shot 2025-06-25 at 5.14.36 PM_1750889681283.png";
 
 interface LoadingProps {
   onComplete: () => void;
@@ -28,11 +27,10 @@ export default function Loading({ onComplete }: LoadingProps) {
       <div className="text-center">
         {/* Logo Section */}
         <div className="mb-16">
-          <img 
-            src={logoImage}
-            alt="Cravii Logo" 
-            className="w-96 h-auto mx-auto"
-          />
+          <h1 className="text-9xl font-bold text-black tracking-tight">
+            Cravii
+          </h1>
+          <p className="text-2xl text-black/80 mt-4">Your Recipe Assistant</p>
         </div>
 
         {/* Progress Bar */}
