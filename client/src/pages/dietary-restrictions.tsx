@@ -76,9 +76,9 @@ export default function DietaryRestrictions({ onBack, onContinue, initialRestric
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
               <img src={logoImage} alt="Cravii Logo" className="w-12 h-12 object-contain ml-2" />
-              Cater Your Crave
+              <span className="-ml-1">Cater Your Crave</span>
             </h1>
           </div>
         </div>
