@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ShoppingCart, Trash2 } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import type { Ingredient } from "@shared/schema";
 import logoImage from "@assets/Copy of Cravii MVP Pitch_1761192283271.png";
@@ -23,6 +23,8 @@ export default function IngredientSwipeSimple({ preferences, dietaryRestrictions
   const [startY, setStartY] = useState(0);
   const [currentY, setCurrentY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [swipeDirection, setSwipeDirection] = useState<'up' | 'down' | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const { data: ingredients = [], isLoading } = useQuery<Ingredient[]>({
     queryKey: ['/api/ingredients']
@@ -38,7 +40,13 @@ export default function IngredientSwipeSimple({ preferences, dietaryRestrictions
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
-    setCurrentY(e.touches[0].clientY);
+    const newY = e.touches[0].clientY;
+    setCurrentY(newY);
+    
+    const deltaY = newY - startY;
+    if (Math.abs(deltaY) > 20) {
+      setSwipeDirection(deltaY < 0 ? 'up' : 'down');
+    }
   };
 
   const handleTouchEnd = () => {
@@ -57,6 +65,7 @@ export default function IngredientSwipeSimple({ preferences, dietaryRestrictions
     }
     
     setIsDragging(false);
+    setSwipeDirection(null);
     setStartY(0);
     setCurrentY(0);
   };
@@ -94,6 +103,43 @@ export default function IngredientSwipeSimple({ preferences, dietaryRestrictions
     );
   }
 
+  // Mouse event handlers for desktop
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setStartY(e.clientY);
+    setCurrentY(e.clientY);
+    setIsDragging(true);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    const newY = e.clientY;
+    setCurrentY(newY);
+    
+    const deltaY = newY - startY;
+    if (Math.abs(deltaY) > 20) {
+      setSwipeDirection(deltaY < 0 ? 'up' : 'down');
+    }
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    
+    const deltaY = currentY - startY;
+    
+    if (Math.abs(deltaY) > 100) {
+      if (deltaY < 0) {
+        handleSelect();
+      } else {
+        handleSkip();
+      }
+    }
+    
+    setIsDragging(false);
+    setSwipeDirection(null);
+    setStartY(0);
+    setCurrentY(0);
+  };
+
   if (!currentIngredient) {
     return (
       <div className="fixed inset-0 bg-gray-50 flex items-center justify-center">
@@ -112,6 +158,7 @@ export default function IngredientSwipeSimple({ preferences, dietaryRestrictions
   }
 
   const dragOffset = isDragging ? currentY - startY : 0;
+  const opacity = 1 - Math.min(Math.abs(dragOffset) / 300, 0.5);
 
   return (
     <div className="fixed inset-0 bg-white flex flex-col">
@@ -164,16 +211,36 @@ export default function IngredientSwipeSimple({ preferences, dietaryRestrictions
 
         {/* Ingredient Card */}
         <div 
-          className="w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden transition-transform"
+          ref={cardRef}
+          className="w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden relative cursor-grab active:cursor-grabbing select-none"
           style={{
-            transform: `translateY(${dragOffset}px)`,
-            opacity: 1 - Math.abs(dragOffset) / 300
+            transform: `translateY(${dragOffset}px) scale(${1 - Math.abs(dragOffset) / 1000})`,
+            opacity: opacity,
+            transition: isDragging ? 'none' : 'transform 0.3s ease, opacity 0.3s ease'
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
           data-testid="card-ingredient"
         >
+          {/* Swipe Direction Indicator */}
+          {swipeDirection === 'up' && (
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-2 rounded-full font-bold z-10 flex items-center gap-2">
+              <ArrowUp className="w-5 h-5" />
+              ADD TO PLATE
+            </div>
+          )}
+          {swipeDirection === 'down' && (
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-2 rounded-full font-bold z-10 flex items-center gap-2">
+              <ArrowDown className="w-5 h-5" />
+              SKIP
+            </div>
+          )}
+          
           <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
             <img
               src={currentIngredient.imageUrl}
