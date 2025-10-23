@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import logoImage from "@assets/Copy of Cravii MVP Pitch_1761192283271.png";
+import logoImage from "@assets/Copy of Cravii MVP Pitch (1)_1761192644533.png";
 
 interface LoadingProps {
   onComplete: () => void;
@@ -32,6 +32,10 @@ export default function Loading({ onComplete }: LoadingProps) {
             src={logoImage}
             alt="Cravii Logo" 
             className="w-80 h-auto mx-auto"
+            style={{ 
+              clipPath: 'inset(0 0 25% 0)',
+              mixBlendMode: 'multiply'
+            }}
           />
         </div>
 
