@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, ChefHat, AlertTriangle } from "lucide-react";
+import { ArrowLeft, AlertTriangle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import logoImage from "@assets/Red and White Simple Food Logo (1)_1761191715318.png";
 
 interface DietaryRestrictionsProps {
   onBack: () => void;
@@ -76,7 +77,7 @@ export default function DietaryRestrictions({ onBack, onContinue, initialRestric
           </Button>
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-              <ChefHat className="w-7 h-7 text-cravii-red" />
+              <img src={logoImage} alt="Cravii Logo" className="w-7 h-7 object-contain" />
               Cater Your Crave
             </h1>
             <p className="text-sm text-gray-500 mt-1">Tell us about your dietary needs</p>
