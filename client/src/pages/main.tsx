@@ -50,11 +50,11 @@ export default function MainScreen({ onGenerateRecipes }: MainScreenProps) {
     <div className="min-h-screen bg-gray-50 pb-20">
       <div className="bg-white p-6">
         <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center">
             <img 
               src={logoImage} 
               alt="Cravii Logo" 
-              className="h-8 w-auto object-contain object-left"
+              className="h-12 w-auto object-contain object-left"
               style={{ clipPath: 'inset(0 0 25% 0)' }}
             />
           </div>
