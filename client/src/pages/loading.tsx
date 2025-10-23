@@ -25,19 +25,19 @@ export default function Loading({ onComplete }: LoadingProps) {
 
   return (
     <div className="fixed inset-0 bg-[rgb(255,87,87)] flex flex-col items-center justify-center z-50">
-      <div className="text-center px-8">
+      <div className="text-center px-8 w-full">
         {/* Logo Section */}
-        <div className="mb-20">
+        <div className="mb-24">
           <img 
             src={logoImage}
             alt="Cravii Logo" 
-            className="w-full max-w-md h-auto mx-auto"
+            className="w-full max-w-2xl h-auto mx-auto"
           />
         </div>
 
         {/* Progress Bar */}
-        <div className="mt-12">
-          <div className="w-full max-w-xs mx-auto h-1.5 bg-white/30 rounded-full overflow-hidden">
+        <div className="mt-16">
+          <div className="w-full max-w-sm mx-auto h-1.5 bg-white/30 rounded-full overflow-hidden">
             <div 
               className="h-full bg-white rounded-full transition-all duration-100 ease-out"
               style={{ width: `${progress}%` }}
