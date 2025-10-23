@@ -50,7 +50,7 @@ export default function MainScreen({ onGenerateRecipes }: MainScreenProps) {
     <div className="min-h-screen bg-gray-50 pb-20">
       <div className="bg-white p-6">
         <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
+          <div className="flex items-center -ml-3">
             <img 
               src={logoImage} 
               alt="Cravii Logo" 
