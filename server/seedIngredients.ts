@@ -300,3 +300,14 @@ export async function seedIngredients() {
     throw error;
   }
 }
+
+// Run the seed function if this file is executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  seedIngredients().then(() => {
+    console.log("Seeding complete!");
+    process.exit(0);
+  }).catch((error) => {
+    console.error("Seeding failed:", error);
+    process.exit(1);
+  });
+}
