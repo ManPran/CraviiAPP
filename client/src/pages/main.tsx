@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Coffee, Utensils, Moon, Flame, Microwave, Wind, Search, Bell, User, Sparkles } from "lucide-react";
+import logoImage from "@assets/Red and White Simple Food Logo (1)_1761191715318.png";
 
 interface MainScreenProps {
   onGenerateRecipes: (preferences: any) => void;
@@ -50,9 +51,11 @@ export default function MainScreen({ onGenerateRecipes }: MainScreenProps) {
       <div className="bg-white p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-cravii-red rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-bold">C</span>
-            </div>
+            <img 
+              src={logoImage} 
+              alt="Cravii Logo" 
+              className="w-10 h-10 object-contain"
+            />
             <span className="font-semibold text-gray-800">Cravii</span>
           </div>
           <div className="flex space-x-4">
