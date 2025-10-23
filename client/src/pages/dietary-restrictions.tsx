@@ -80,9 +80,9 @@ export default function DietaryRestrictions({ onBack, onContinue, initialRestric
               <img src={logoImage} alt="Cravii Logo" className="w-12 h-12 object-contain ml-2" />
               Cater Your Crave
             </h1>
-            <p className="text-sm text-gray-500 mt-1">Tell us about your dietary needs</p>
           </div>
         </div>
+        <p className="text-sm text-gray-500 pb-3 text-center px-6">Tell us about your dietary needs</p>
       </div>
 
       <div className="px-6 py-8 max-w-2xl mx-auto">
