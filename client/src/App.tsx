@@ -15,7 +15,7 @@ import Registration from "@/pages/registration";
 import DietaryRestrictions from "@/pages/dietary-restrictions";
 
 import MainScreen from "@/pages/main";
-import IngredientSwipe from "@/pages/ingredient-swipe";
+import IngredientSwipeSimple from "@/pages/ingredient-swipe-simple";
 import { RealRecipeResults } from "@/components/RealRecipeResults";
 import RecipeSuggestions from "@/pages/recipe-suggestions";
 import RecipeDetail from "@/pages/recipe-detail";
@@ -77,7 +77,7 @@ function AppContent() {
 
   const handleAuthComplete = (newUserId: number) => {
     setUserId(newUserId);
-    setCurrentState("preferences");
+    setCurrentState("main");
   };
 
   const handleRegistrationComplete = (newUserId: number) => {
@@ -107,14 +107,16 @@ function AppContent() {
   const handleIngredientSwipeComplete = (ingredientLegacies: any[]) => {
     // Convert IngredientLegacy to Ingredient format for API
     const ingredients = ingredientLegacies.map((legacy: any) => ({
-      id: parseInt(legacy.id),
+      id: typeof legacy.id === 'string' ? parseInt(legacy.id) : legacy.id,
       name: legacy.name,
       description: legacy.description,
       imageUrl: legacy.imageUrl,
       category: legacy.category,
-      tags: legacy.tags,
+      tags: Array.isArray(legacy.tags) ? legacy.tags : [],
+      dietaryTags: [],
       isCommon: true,
-      searchTerms: [legacy.name.toLowerCase()]
+      searchTerms: [legacy.name.toLowerCase()],
+      priority: "main"
     }));
     
     setSelectedIngredients(ingredients);
@@ -176,7 +178,7 @@ function AppContent() {
       )}
       
       {currentState === "ingredient-swipe" && currentPreferences && (
-        <IngredientSwipe 
+        <IngredientSwipeSimple 
           preferences={currentPreferences}
           dietaryRestrictions={dietaryRestrictions}
           onBack={handleIngredientSwipeBack}
@@ -187,22 +189,26 @@ function AppContent() {
       {currentState === "recipe-results" && (
         <RealRecipeResults 
           selectedIngredients={selectedIngredients.map(ing => ing.name)}
-          onSelectRecipe={(recipe) => {
-            // Convert real recipe to expected format
-            handleSelectRecipe({
-              id: recipe.id,
-              title: recipe.title,
-              description: recipe.instructions.substring(0, 200) + "...",
-              image: recipe.imageUrl,
-              readyInMinutes: parseInt(recipe.cookTime?.match(/\d+/)?.[0] || "30"),
-              servings: recipe.servings,
-              ingredients: recipe.ingredients,
-              instructions: recipe.instructions.split('\n').filter(s => s.trim()),
-              difficulty: recipe.difficulty as "easy" | "medium" | "hard",
+          onSelectRecipe={(realRecipe) => {
+            // Convert RealRecipe (from API) to Recipe type
+            const recipe: Recipe = {
+              id: parseInt(realRecipe.id) || 0,
+              title: realRecipe.title,
+              description: realRecipe.instructions.substring(0, 200) + "...",
+              prepTime: realRecipe.prepTime || "20 minutes",
+              cookTime: realRecipe.cookTime || "30 minutes",
+              servings: realRecipe.servings || 4,
+              difficulty: realRecipe.difficulty || "medium",
+              rating: realRecipe.rating || "4.5",
+              imageUrl: realRecipe.imageUrl || '',
+              ingredients: realRecipe.ingredients || [],
+              instructions: realRecipe.instructions,
+              source: realRecipe.source || 'Scraped Recipe',
+              sourceUrl: realRecipe.sourceUrl || null,
               tags: ['authentic', 'real-recipe'],
-              sourceUrl: recipe.sourceUrl,
-              rating: parseFloat(recipe.rating)
-            });
+              createdAt: new Date()
+            };
+            handleSelectRecipe(recipe);
           }}
           onContinueSwiping={handleRecipeResultsBack}
         />
